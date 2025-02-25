@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentação API PIX</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <button class="mobile-menu-button" aria-label="Menu">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 12H21M3 6H21M3 18H21"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+    <div class="container">
+      <aside class="sidebar">
+        <div class="logo">
+          <span>API PIX</span>
+        </div>
+        <nav>
+          <div class="nav-group">
+            <div class="nav-item">
+              <a href="#introducao" class="nav-link">Introdução</a>
+            </div>
+            <div class="nav-item">
+              <a href="#endpoints" class="nav-link">Endpoints</a>
+            </div>
+            <div class="nav-item">
+              <a href="#gerar-pix" class="nav-link">Gerar PIX</a>
+            </div>
+            <div class="nav-item">
+              <a href="#verificar-status" class="nav-link">Verificar Status</a>
+            </div>
+            <div class="nav-item">
+              <a href="#configuracoes" class="nav-link">Configurações</a>
+            </div>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <h1 class="title">Documentação API PIX</h1>
+        <p class="subtitle">
+          Guia completo para integração com nossa API de pagamentos PIX
+        </p>
+
+        <section id="endpoints" class="section">
+          <h2 class="section-title">Endpoints</h2>
+          <div class="card-grid">
+            <div class="api-card">
+              <div class="method post">POST</div>
+              <h3>Gerar PIX</h3>
+              <p>/g3</p>
+            </div>
+            <div class="api-card">
+              <div class="method get">GET</div>
+              <h3>Verificar Status</h3>
+              <p>/verify3</p>
+            </div>
+          </div>
+        </section>
+
+        <h2 id="introducao">Introdução</h2>
+        <p>
+          API para geração e verificação de pagamentos via PIX, oferecendo uma
+          solução completa para integração de pagamentos instantâneos.
+        </p>
+
+        <h2 id="endpoints">Endpoints</h2>
+
+        <div class="endpoint" id="gerar-pix">
+          <h3>Gerar Código PIX</h3>
+          <p>Endpoint para gerar um novo código PIX para pagamento.</p>
+
+          <div class="method">POST</div>
+          <span class="url">https://api-production-0feb.up.railway.app/g5</span>
+
+          <h4>Request Body</h4>
+          <pre><code class="language-json">{
+  "amount": 500,
+  "description": "Pix",
+  "customer": {
+    "name": "string",
+    "document": "string", // CPF válido
+    "phone": "string",
+    "email": "string"
+  },
+  "item": {
+    "title": "string",
+    "price": 500,
+    "quantity": 1
+  },
+  "utm": "string"
+}</code></pre>
+
+          <h4>Response</h4>
+          <pre><code class="language-json">{
+  "pixCode": "string",
+  "transactionId": "string"
+}</code></pre>
+        </div>
+
+        <div class="endpoint" id="verificar-status">
+          <h3>Verificar Status do Pagamento</h3>
+          <p>Endpoint para verificar o status atual de um pagamento PIX.</p>
+
+          <div class="method">POST</div>
+          <span class="url"
+            >https://api-production-0feb.up.railway.app/verify5</span
+          >
+
+          <h4>Request Body</h4>
+          <pre><code class="language-json">{
+  "paymentId": "string"
+}</code></pre>
+
+          <h4>Response</h4>
+          <pre><code class="language-json">{
+  "ok": boolean,
+  "status": "pending" | "completed",
+  "data": {
+    "payment": {
+      "customer": {
+        "name": "string",
+        "email": "string",
+        "phone": "string",
+        "document": "string"
+      },
+      "item": {
+        "title": "string",
+        "price": number,
+        "quantity": number,
+        "id": "string"
+      },
+      "status": "pending" | "completed",
+      "paymentMethod": "pix",
+      "amount": number,
+      "fee": number,
+      "result": number,
+      "metadata": {
+        "pixCode": "string",
+        "pixQrCode": "string",
+        "status": "WAITING_PAYMENT",
+        "generatedAt": "string"
+      }
+    }
+  }
+}</code></pre>
+        </div>
+
+        <h2 id="configuracoes">Configurações</h2>
+        <div class="endpoint">
+          <h3>Timeouts</h3>
+          <table class="parameter-table">
+            <tr>
+              <th>Configuração</th>
+              <th>Valor</th>
+            </tr>
+            <tr>
+              <td>Requisição</td>
+              <td>10 segundos</td>
+            </tr>
+            <tr>
+              <td>Verificação de pagamento</td>
+              <td>10 segundos</td>
+            </tr>
+            <tr>
+              <td>Notificações</td>
+              <td>30 minutos</td>
+            </tr>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
